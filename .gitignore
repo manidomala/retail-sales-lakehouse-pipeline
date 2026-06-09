@@ -1,0 +1,12 @@
+.env
+__pycache__/
+.ipynb_checkpoints/
+*.log
+.DS_Store
+
+# Avoid uploading large raw files
+data/raw/*.csv
+data/raw/*.xlsx
+
+# Keep only small sample data
+!data/sample/*.csv
