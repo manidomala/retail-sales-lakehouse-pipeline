@@ -1,4 +1,4 @@
-# Retail Sales Data Lakehouse Pipeline
+## Retail Sales Data Lakehouse Pipeline
 
 ## Project Overview
 
