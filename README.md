@@ -68,3 +68,16 @@ Business Aggregated Tables
         |
         v
 SQL Analytics
+
+## Bronze Layer
+
+The Bronze layer stores raw retail sales data from the CSV file with minimal transformation.
+
+Additional metadata columns added:
+
+- `ingestion_timestamp`
+- `source_file`
+
+Bronze table:
+
+`retail_lakehouse.bronze.retail_sales_raw`

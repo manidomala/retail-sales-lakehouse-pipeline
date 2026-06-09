@@ -34,8 +34,3 @@ SELECT *
 FROM retail_lakehouse.bronze.retail_sales_raw
 LIMIT 10
 """).show()
-
-spark.sql("""
-SELECT COUNT(*) AS bronze_record_count
-FROM retail_lakehouse.bronze.retail_sales_raw
-""").show()
