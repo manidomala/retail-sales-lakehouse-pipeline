@@ -81,3 +81,21 @@ Additional metadata columns added:
 Bronze table:
 
 `retail_lakehouse.bronze.retail_sales_raw`
+
+## Silver Layer
+
+The Silver layer contains cleaned and standardized retail sales data.
+
+Transformations performed:
+
+- Renamed columns to snake_case
+- Converted data types
+- Removed null invoice and product records
+- Removed invalid quantity and price records
+- Standardized country and product description values
+- Created `total_amount`
+- Created `transaction_type`
+
+Silver table:
+
+`retail_lakehouse.silver.retail_sales_cleaned`
