@@ -99,3 +99,16 @@ Transformations performed:
 Silver table:
 
 `retail_lakehouse.silver.retail_sales_cleaned`
+
+## Gold Layer
+
+The Gold layer contains business-ready analytics tables.
+
+Gold tables created:
+
+- `daily_sales_summary`
+- `country_sales_summary`
+- `product_sales_summary`
+- `monthly_sales_summary`
+
+These tables are used for business reporting and dashboarding.
