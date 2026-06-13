@@ -1,5 +1,17 @@
-from pyspark.sql.functions import (col,trim,upper,to_timestamp,round,when)
-
+from pyspark.sql.functions import (
+    col,
+    trim,
+    upper,
+    to_timestamp,
+    round,
+    when,
+    to_date,
+    year,
+    month,
+    quarter,
+    date_format,
+    dayofweek
+)
 df_bronze = spark.table("retail_lakehouse.bronze.retail_sales_raw")
 
 # Rename columns
@@ -29,9 +41,21 @@ df_silver = (
 
 df_silver = (
     df_silver
+    .withColumn("invoice_date", to_date(col("invoice_timestamp")))
+    .withColumn("invoice_year", year(col("invoice_timestamp")))
+    .withColumn("invoice_month_number", month(col("invoice_timestamp")))
+    .withColumn("invoice_month", date_format(col("invoice_timestamp"), "MMMM"))
+    .withColumn("invoice_year_month", date_format(col("invoice_timestamp"), "yyyy-MM"))
+    .withColumn("invoice_quarter", quarter(col("invoice_timestamp")))
+    .withColumn("invoice_day", date_format(col("invoice_timestamp"), "EEEE"))
+    .withColumn("invoice_day_number", dayofweek(col("invoice_timestamp")))
+)
+
+df_silver = (
+    df_silver
     .filter(col("invoice_no").isNotNull())
     .filter(col("stock_code").isNotNull())
-    .filter(col("quantity")>0)
+    .filter(col("quantity") != 0)
     .filter(col("unit_price")>0)
     .filter(col("invoice_timestamp").isNotNull())
 )
@@ -40,8 +64,22 @@ df_silver = (
     df_silver
     .withColumn(
         "transaction_type",
-        when(col("invoice_no").startswith("C"), "RETURN")
+        when(col("invoice_no").startswith("C")| (col("quantity") < 0), "RETURN")
         .otherwise("SALE")
+    )
+    .withColumn(
+        "customer_type",
+        when(col("customer_id").isNull(), "GUEST")
+        .otherwise("REGISTERED")
+    )
+    .withColumn(
+        "absolute_quantity",
+        when(col("quantity") < 0, -col("quantity"))
+        .otherwise(col("quantity"))
+    )
+    .withColumn(
+        "gross_amount",
+        round(col("absolute_quantity") * col("unit_price"), 2)
     )
 )
 
