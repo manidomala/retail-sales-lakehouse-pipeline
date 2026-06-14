@@ -12,4 +12,4 @@ ORDER BY product_revenue DESC;
 
 SELECT *
 FROM retail_lakehouse.gold.monthly_sales_summary
-ORDER BY sales_year, sales_month;
+ORDER BY invoice_year, invoice_month_number;

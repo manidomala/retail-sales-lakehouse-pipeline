@@ -11,7 +11,7 @@ df_raw = (
     .select("*", col("_metadata.file_path").alias("source_file"))
 )
 
-display(df_raw)
+display(df_raw.limit(100))
 
 # Add ingestion metadata
 df_bronze = (
@@ -19,7 +19,7 @@ df_bronze = (
     .withColumn("ingestion_timestamp", current_timestamp())
 )
 
-display(df_bronze)
+display(df_bronze.limit(100))
 
 # Write Bronze Delta table
 df_bronze.write \
